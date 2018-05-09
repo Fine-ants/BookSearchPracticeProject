@@ -11,10 +11,11 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_weight="0">
 
         <EditText
-            android:id="@+id/editText_book_search"
+            android:id="@+id/edittext_book_search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -27,13 +28,13 @@
             android:id="@+id/button_book_search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/editText_book_search"
+            android:layout_below="@id/edittext_book_search"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginTop="8dp"
             android:text="@string/book_search_button"/>
-        
-        <view
+
+        <View
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:layout_marginTop="16dp"
