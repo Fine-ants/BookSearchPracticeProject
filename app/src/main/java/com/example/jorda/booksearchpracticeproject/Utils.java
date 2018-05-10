@@ -880,17 +880,28 @@ public class Utils {
                 " ]\n" +
                 "}";
 
+
+        ArrayList<Book> books = new ArrayList<>();
         try {
             JSONObject jsonRoot = new JSONObject(placeholderJson);
             JSONArray jsonItems = jsonRoot.getJSONArray("items");
 
-            for(String jsonItem: jsonItems){
 
+            String title;
+            String author;
+            double price;
+            for(int i=0; i<jsonItems.length(); i++){
+                JSONObject volumn = jsonItems.getJSONObject(i);
+                title = volumn.getString("title");
+                author = volumn.getString("author");
+                books.add(new Book(title, author, 34.99));
             }
-
-
         }catch (JSONException e){
             e.printStackTrace();
         }
+
+
+        // Return ArrayList of books
+        return books;
     }
 }
