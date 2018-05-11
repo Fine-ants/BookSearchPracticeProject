@@ -14,6 +14,8 @@ import java.util.ArrayList;
 
 public class BookSearchActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<ArrayList<Book>>{
 
+    private String bookSearchInput;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,31 +32,34 @@ public class BookSearchActivity extends AppCompatActivity implements LoaderManag
 
 
                 // Confirm user input exists, if none exit
-                String bookSearchInput = searchText.getText().toString();
-                if(bookSearchInput==null){
-                    return;
-                }
+                bookSearchInput = searchText.getText().toString();
 
-                // Fetch books matching user input from Google Books API
-                ArrayList<Book> books = Utils.fetchVolumesFromJson(bookSearchInput);
-                BookAdapter adapter = new BookAdapter(BookSearchActivity.this, R.layout.list_item, books);
-                ListView booksListView = findViewById(R.id.books_list_view);
-                booksListView.setAdapter(adapter);
+
+
             }
         });
 
 
     }
 
+    public void updateUi(ArrayList<Book> books){
+        // Fetch books matching user input from Google Books API
+        BookAdapter adapter = new BookAdapter(BookSearchActivity.this, R.layout.list_item, books);
+        ListView booksListView = findViewById(R.id.books_list_view);
+        booksListView.setAdapter(adapter);
+    }
+
 
     @Override
     public Loader<ArrayList<Book>> onCreateLoader(int i, Bundle bundle) {
-        return null;
     }
 
     @Override
     public void onLoadFinished(Loader<ArrayList<Book>> loader, ArrayList<Book> books) {
-
+        // Update the UI
+        if(books!=null){
+            updateUi(books);
+        }
     }
 
     @Override
