@@ -1,6 +1,8 @@
 package com.example.jorda.booksearchpracticeproject;
 
-import android.app.LoaderManager;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.LoaderManager;
 import android.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,6 +17,7 @@ import java.util.ArrayList;
 public class BookSearchActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<ArrayList<Book>>{
 
     private String bookSearchInput;
+    private final static int EARTHQUAKE_LOADER_ID = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +38,8 @@ public class BookSearchActivity extends AppCompatActivity implements LoaderManag
                 bookSearchInput = searchText.getText().toString();
 
 
-
+                // Init LoaderManager
+                getSupportLoaderManager().initLoader(EARTHQUAKE_LOADER_ID, null, );
             }
         });
 
@@ -50,20 +54,19 @@ public class BookSearchActivity extends AppCompatActivity implements LoaderManag
     }
 
 
+    @NonNull
     @Override
-    public Loader<ArrayList<Book>> onCreateLoader(int i, Bundle bundle) {
+    public android.support.v4.content.Loader<ArrayList<Book>> onCreateLoader(int id, @Nullable Bundle args) {
+        return new BooksLoader(BookSearchActivity.this, bookSearchInput);
     }
 
     @Override
-    public void onLoadFinished(Loader<ArrayList<Book>> loader, ArrayList<Book> books) {
-        // Update the UI
-        if(books!=null){
-            updateUi(books);
-        }
+    public void onLoadFinished(@NonNull android.support.v4.content.Loader<ArrayList<Book>> loader, ArrayList<Book> data) {
+
     }
 
     @Override
-    public void onLoaderReset(Loader<ArrayList<Book>> loader) {
+    public void onLoaderReset(@NonNull android.support.v4.content.Loader<ArrayList<Book>> loader) {
 
     }
 }
