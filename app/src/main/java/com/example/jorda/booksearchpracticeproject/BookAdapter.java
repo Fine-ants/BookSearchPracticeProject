@@ -16,7 +16,7 @@ import java.util.List;
  */
 
 public class BookAdapter extends ArrayAdapter<Book> {
-    public BookAdapter(@NonNull Context context, int resource, int textViewResourceId, @NonNull List<Book> objects) {
+    public BookAdapter(@NonNull Context context, int resource, @NonNull List<Book> objects) {
         super(context, resource, 0, objects);
     }
 
