@@ -1,5 +1,7 @@
 package com.example.jorda.booksearchpracticeproject;
 
+import android.app.LoaderManager;
+import android.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,7 +12,7 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
-public class BookSearchActivity extends AppCompatActivity {
+public class BookSearchActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<ArrayList<Book>>{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +43,22 @@ public class BookSearchActivity extends AppCompatActivity {
             }
         });
 
+
+    }
+
+
+    @Override
+    public Loader<ArrayList<Book>> onCreateLoader(int i, Bundle bundle) {
+        return null;
+    }
+
+    @Override
+    public void onLoadFinished(Loader<ArrayList<Book>> loader, ArrayList<Book> books) {
+
+    }
+
+    @Override
+    public void onLoaderReset(Loader<ArrayList<Book>> loader) {
 
     }
 }
