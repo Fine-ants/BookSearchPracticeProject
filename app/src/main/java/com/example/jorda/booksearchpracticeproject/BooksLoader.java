@@ -1,8 +1,9 @@
 package com.example.jorda.booksearchpracticeproject;
 
-import android.content.AsyncTaskLoader;
+
 import android.content.Context;
-import android.content.Loader;
+import android.support.annotation.Nullable;
+import android.support.v4.content.AsyncTaskLoader;
 
 import java.util.ArrayList;
 
@@ -20,8 +21,14 @@ public class BooksLoader extends AsyncTaskLoader<ArrayList<Book>> {
     }
 
     @Override
+    protected void onStartLoading() {
+        forceLoad();
+    }
+
+    @Override
+    @Nullable
     public ArrayList<Book> loadInBackground() {
-        ArrayList<Book> books = Utils.fetchVolumesFromJson(searchString);
+        ArrayList<Book> books = Utils.fetchBookData(searchString);
         return books;
     }
 }
