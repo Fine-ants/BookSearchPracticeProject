@@ -23,30 +23,43 @@ import java.util.List;
 
 public class Utils {
 
+
+    /**
+     * Single method used to fetch API data. Call this method in worker thread.
+     * Handles nuances by calling other methods.
+     * @param searchString
+     * @return ArrayList of Books
+     */
     public static ArrayList<Book> fetchBookData(String searchString){
 
-        // Build url string
-        String url = "https://www.googleapis.com/books/v1/volumes?q=";
-        url += searchString;
-
-        // Fetch JSON
-        String jsonResponse=null;
-        try {
-            jsonResponse = makeHttpRequest(url);
-        }catch (IOException e){
+        // Build URL
+        URL url=null;
+        try{
+            url = new URL(searchString);
+        }catch (MalformedURLException e){
             e.printStackTrace();
         }
 
-        // Parse JSON into ArrayList
+        // Fetch and parse JSON
+        String jsonResponse;
         ArrayList<Book> books=null;
-        if(jsonResponse!=null){
+        try {
+            jsonResponse = makeHttpRequest(url);
             books = getBooksFromJson(jsonResponse);
+        }catch (IOException e){
+            e.printStackTrace();
         }
 
         return books;
     }
 
-    public static ArrayList<Book> getBooksFromJson(String searchInput){
+
+    /**
+     * Parse JSON into ArrayList of Books
+     * @param searchInput JSON response after making an HttpUrlConnection request
+     * @return ArrayList of Book objects
+     */
+    private static ArrayList<Book> getBooksFromJson(String searchInput){
 
         ArrayList<Book> books = new ArrayList<>();
         try {
@@ -74,33 +87,33 @@ public class Utils {
             e.printStackTrace();
         }
 
-
         // Return ArrayList of books
         return books;
     }
 
-    public static String makeHttpRequest(String urlString)throws IOException{
 
-        // Get URL object
-        URL url;
+    /**
+     * Using URL object, establish server connection and return response as String
+     * @param url URL object used to instantiate HttpUrlConnection
+     * @return String of the Http response
+     * @throws IOException Method throws IOException due to inputStream.close()
+     */
+    private static String makeHttpRequest(URL url)throws IOException{
         HttpURLConnection httpURLConnection = null;
         String jsonResponse=null;
         InputStream inputStream=null;
         try{
             // Get HttpObject
-            url = new URL(urlString);
             httpURLConnection = (HttpURLConnection) url.openConnection();
             httpURLConnection.setReadTimeout(10000);
             httpURLConnection.setConnectTimeout(15000);
             httpURLConnection.setRequestMethod("GET");
             httpURLConnection.connect();
 
-            // Read response from input stream
+            // Connect success?
             if(httpURLConnection.getResponseCode()==HttpURLConnection.HTTP_OK){
-                // Init InputStream
+                // Read connection response
                 inputStream = httpURLConnection.getInputStream();
-
-                // Read from inputStream
                 jsonResponse = readFromStream(inputStream);
             }
         }catch(IOException e){
@@ -116,8 +129,14 @@ public class Utils {
         return jsonResponse;
     }
 
-
-    public static String readFromStream(InputStream inputStream) throws IOException{
+    /**
+     * Bytes-->characters using InputStreamReader. Characters-->String chunks using BufferedReader.
+     * String chunks-->entire String using StringBuilder.
+     * @param inputStream Object from which InputStreamReader and BufferedReader subsequently read from
+     * @return Response from InputStream as one entire String
+     * @throws IOException Method throws IOException due to bufferedReader.readLine()
+     */
+    private static String readFromStream(InputStream inputStream) throws IOException{
         // Init readers and string builder
         InputStreamReader inputStreamReader = new InputStreamReader(inputStream, Charset.forName("UTF-8"));
         StringBuilder stringBuilder = new StringBuilder();

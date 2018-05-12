@@ -28,7 +28,13 @@ public class BooksLoader extends AsyncTaskLoader<ArrayList<Book>> {
     @Override
     @Nullable
     public ArrayList<Book> loadInBackground() {
-        ArrayList<Book> books = Utils.fetchBookData(searchString);
+
+        // Build url string
+        String url = "https://www.googleapis.com/books/v1/volumes?q=";
+        url += searchString;
+
+        // Fetch books from Google Books API
+        ArrayList<Book> books = Utils.fetchBookData(url);
         return books;
     }
 }
