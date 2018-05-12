@@ -24,8 +24,8 @@ public class Utils {
     public static ArrayList<Book> fetchBookData(String searchString){
 
         // Build url string
-        String url = "https://www.googleapis.com/books/v1/volumes?q=";
-        url += "&q=" + searchString;
+        String url = "https://googleapis.com/books/v1/volumes?q=";
+        url += searchString;
 
         // Fetch JSON
         String jsonResponse=null;
