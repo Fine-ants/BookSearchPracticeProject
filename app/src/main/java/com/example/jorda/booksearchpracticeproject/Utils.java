@@ -95,10 +95,7 @@ public class Utils {
             httpURLConnection.setRequestMethod("GET");
             httpURLConnection.connect();
 
-            // Connection successful?
-            Log.i("debugtag", url.toString());
-            Log.i("debugtag", httpURLConnection.getResponseCode()+"");
-            Log.i("debugtag", httpURLConnection.getResponseMessage());
+            // Read response from input stream
             if(httpURLConnection.getResponseCode()==HttpURLConnection.HTTP_OK){
                 // Init InputStream
                 inputStream = httpURLConnection.getInputStream();
@@ -128,7 +125,7 @@ public class Utils {
 
         // Read each line and append to StringBuilder
         String line = bufferedReader.readLine();
-        while(!line.isEmpty()){
+        while(line!=null){
             stringBuilder.append(line);
             line = bufferedReader.readLine();
         }
