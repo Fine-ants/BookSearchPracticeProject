@@ -1,5 +1,7 @@
 package com.example.jorda.booksearchpracticeproject;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,7 +26,7 @@ public class Utils {
     public static ArrayList<Book> fetchBookData(String searchString){
 
         // Build url string
-        String url = "https://googleapis.com/books/v1/volumes?q=";
+        String url = "https://www.googleapis.com/books/v1/volumes?q=";
         url += searchString;
 
         // Fetch JSON
@@ -88,16 +90,15 @@ public class Utils {
             // Get HttpObject
             url = new URL(urlString);
             httpURLConnection = (HttpURLConnection) url.openConnection();
-
-            // Define connection parameters
             httpURLConnection.setReadTimeout(10000);
             httpURLConnection.setConnectTimeout(15000);
             httpURLConnection.setRequestMethod("GET");
-
-            // Connect
             httpURLConnection.connect();
 
             // Connection successful?
+            Log.i("debugtag", url.toString());
+            Log.i("debugtag", httpURLConnection.getResponseCode()+"");
+            Log.i("debugtag", httpURLConnection.getResponseMessage());
             if(httpURLConnection.getResponseCode()==HttpURLConnection.HTTP_OK){
                 // Init InputStream
                 inputStream = httpURLConnection.getInputStream();
