@@ -1,5 +1,7 @@
 package com.example.jorda.booksearchpracticeproject;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
@@ -11,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 
@@ -37,6 +40,17 @@ public class BookSearchActivity extends AppCompatActivity implements LoaderManag
         searchBooks.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                // Check for network connectivity
+                ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+                if(connectivityManager.getActiveNetworkInfo()==null || !connectivityManager.getActiveNetworkInfo().isConnected()){
+                    noEarthquakesFound.setText(R.string.no_connection_found);
+
+                    // Hide loading indicator
+                    ProgressBar progressBar = findViewById(R.id.progress_bar);
+                    progressBar.setVisibility(View.INVISIBLE);
+                    return;
+                }
 
                 // Retrieve user book search input
                 EditText searchText = findViewById(R.id.edittext_book_search);
